@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field>u_requested_for</field>
+        <global>true</global>
+        <isolate_script>true</isolate_script>
+        <messages/>
+        <name>NeedIt LoadValues JSON</name>
+        <order/>
+        <script><![CDATA[function onChange(control, oldValue, newValue, isLoading, isTemplate) {
+   if (isLoading || newValue === '') {
+      return;
+   }
+	
+	var user=g_form.getValue('u_requested_for');
+
+   //Type appropriate comment here, and begin script below
+	var gr=new GlideAjax('getUserDetails');
+	gr.addParam('sysparm_name','getUserValues');
+	gr.addParam('sys_user_id',user);
+	gr.getXML(populateDetails);
+	
+	function populateDetails(response){
+		alert('Inside Onchange');
+		
+		  var answer=response.responseXML.documentElement.getAttribute("answer");
+
+
+    alert(answer); //alert to see the string value
+
+
+    var answer2 = answer.evalJSON();
+
+		alert('UserName'+answer2.userName);
+		alert('dept'+answer2.department);
+		alert('lang'+answer2.lang);
+		alert('active'+answer2.active);
+		
+		g_form.setValue('u_name',answer2.userName);
+		g_form.setValue('u_department',answer2.department);
+		g_form.setValue('u_lang',answer2.lang);
+		g_form.setValue('u_active',answer2.active);
+		
+	}
+   
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2020-07-06 12:40:14</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>63119d9edbf110102c06656b4b96190d</sys_id>
+        <sys_mod_count>22</sys_mod_count>
+        <sys_name>NeedIt LoadValues JSON</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="NeedIt" source="x_58872_needit">6ead8e780f603200cd674f8ce1050ed1</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="NeedIt">6ead8e780f603200cd674f8ce1050ed1</sys_scope>
+        <sys_update_name>sys_script_client_63119d9edbf110102c06656b4b96190d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2020-07-13 07:47:48</sys_updated_on>
+        <table>x_58872_needit_needit</table>
+        <type>onChange</type>
+        <ui_type>10</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>
